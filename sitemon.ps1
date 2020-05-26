@@ -12,8 +12,8 @@ $IgnoreTLS = $true
 ## Frequency of web query in seconds. Do not set this too low or you risk running into DOS protection
 $Interval = 8
 
-## Query timeout in seconds
-$TimeOut = 6
+## Query timeout in seconds - TCP Handsahe is 21
+$TimeOut = 21
 
 ## Stop Trace and monitoring if site problems are detected 
 $StopOnFailure = $false

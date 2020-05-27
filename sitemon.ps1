@@ -2,8 +2,8 @@
 
 ## The target URL to monitor
 #$uri = "https://internal-app.domain.local/"
-$uri = "https://www.google.co.uk/"
-#$uri = "http://www.bing.com/"
+#$uri = "https://www.google.co.uk/"
+$uri = "http://www.bing.com/"
 #$uri = "https://login.microsoftonline.com/"
 
 ## Ignore SSL/TLS errors when attempting connection to trunk by IP instead of fqdn. Useful for split DNS scenarios
@@ -12,14 +12,14 @@ $IgnoreTLS = $true
 ## Frequency of web query in seconds. Do not set this too low or you risk running into DOS protection
 $Interval = 8
 
-## Query timeout in seconds - TCP Handsahe is 21
-$TimeOut = 21
+## Query timeout in seconds - TCP handshake is 21
+$TimeOut = 22
 
 ## Stop Trace and monitoring if site problems are detected 
 $StopOnFailure = $false
 
 ## Drive and path that we'll dump all of our data to
-$DataPath = "D:\TraceData\"
+$DataPath = "C:\SHA\"
 
 ## Minimum free drive space in GB, that triggers stop
 $MinFreeSpace = 10
@@ -543,7 +543,7 @@ while($true) {
                             $cc = New-Object System.Net.CookieContainer
                             $req.CookieContainer = $cc
 
-                            # Set some reasonable limits on resources used by this request, if necessary
+                            # Set some reasonable limits on resources for each request (if necessary)
                             $req.MaximumAutomaticRedirections = 4
                             $req.MaximumResponseHeadersLength = 4
 
@@ -572,6 +572,7 @@ while($true) {
 							}
 
                             Write-Host " Last response:       "$StatusCode -ForegroundColor white
+                            Write-Host " Response time:       "$time -ForegroundColor white
                             Write-Host " Status Description:  "$SCodeDescription -ForegroundColor white
                             Write-Host " Content length:      "$CLength -ForegroundColor white
                             Write-Host " Site Session Cookie: "$SCookie -ForegroundColor white -NoNewline
@@ -588,6 +589,7 @@ while($true) {
                                #$x = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
                                
                                Write-Host " Last response:        Not available" -ForegroundColor white
+                               Write-Host " Response time:       "$StatusCode -ForegroundColor white
                                Write-Host " Status Description:   Not available" -ForegroundColor white 
                                Write-Host " Content length:       Not available" -ForegroundColor white
                                Write-Host " Site Session Cookie:  Not available" -ForegroundColor white
@@ -602,7 +604,7 @@ while($true) {
 
            if($result -ne $null)
             {
-                $Outputreport = "<TR bgcolor=#b3e0ff align=center><TD><pre>  #   </pre></TD><TD><pre>  Time  </pre></TD><TD><pre>  Status  </pre></TD><TD><pre>  Desc  </pre></TD><TD><pre>  ResponseLength  </pre></TD><TD><pre>  TimeTaken  </pre></TD><TD><pre>  Session Cookie  </pre></TD><TD><pre>  Free space on $($DataDrive)  </pre></TD></TR>"
+                $Outputreport = "<TR bgcolor=#b3e0ff align=center><TD><pre>  #   </pre></TD><TD><pre>  Time  </pre></TD><TD><pre>  Status  </pre></TD><TD><pre>  Desc  </pre></TD><TD><pre>  ResponseLength  </pre></TD><TD><pre>  ResponseTime  </pre></TD><TD><pre>  Session Cookie  </pre></TD><TD><pre>  Free space on $($DataDrive)  </pre></TD></TR>"
                 Foreach($Entry in $Result)
                 {
                     if($StatusCode -eq 500)
@@ -621,7 +623,7 @@ while($true) {
                             $Triggered = $true
                             }
                     }
-                    elseif($StatusCode -eq 503)
+                    elseif($StatusCode -eq 502)
                     {
                         $Outputreport += "<TR bgcolor=#ff6666>"
                         if ($SendAlert) {
@@ -660,7 +662,7 @@ while($true) {
             }
             else
             {
-                $Outputreport = "<TR bgcolor=#b3e0ff align=center><TD><pre>  #   </pre></TD><TD><pre>  Time  </pre></TD><TD><pre>  Status  </pre></TD><TD><pre>  Desc  </pre></TD><TD><pre>  ResponseLength  </pre></TD><TD><pre>  TimeTaken  </pre></TD><TD><pre>  Cookie  </pre></TD><TD><pre>  Free space on $($DataDrive)  </pre></TD></TR>"
+                $Outputreport = "<TR bgcolor=#b3e0ff align=center><TD><pre>  #   </pre></TD><TD><pre>  Time  </pre></TD><TD><pre>  Status  </pre></TD><TD><pre>  Desc  </pre></TD><TD><pre>  ResponseLength  </pre></TD><TD><pre>  ResponseTime  </pre></TD><TD><pre>  Cookie  </pre></TD><TD><pre>  Free space on $($DataDrive)  </pre></TD></TR>"
                 $Outputreport += "<TR bgcolor=#ff6666>"
                 $Outputreport += "<TD align=center><pre> $($count ; $count ++)  </pre></TD><TD align=center><pre> $(Get-Date) </pre></TD><TD align=center><pre> - </pre></TD><TD align=center><pre> Site unavailable </pre></TD><TD align=center><pre> 0 </pre></TD><TD align=center><pre> - </pre></TD><TD align=center><pre> - </pre></TD><TD align=center><pre> $($FreeSpace) </pre></TD></TR>"
                 $Outputreport | out-file $StatFile -Append

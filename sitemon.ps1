@@ -589,7 +589,7 @@ while($true) {
                                #$x = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
                                
                                Write-Host " Last response:        Not available" -ForegroundColor white
-                               Write-Host " Response time:       "$StatusCode -ForegroundColor white
+                               Write-Host " Response time:        Not available" -ForegroundColor white
                                Write-Host " Status Description:   Not available" -ForegroundColor white 
                                Write-Host " Content length:       Not available" -ForegroundColor white
                                Write-Host " Site Session Cookie:  Not available" -ForegroundColor white

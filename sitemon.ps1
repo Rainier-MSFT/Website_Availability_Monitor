@@ -446,9 +446,9 @@ sleep 2
 		}
 
 cls
-1..3 | % -begin {[Environment]::NewLine} -process {(Log " Starting continous tracing and monitoring..." yellow);sleep 1;sleep 1}
+1..3 | % -begin {[Environment]::NewLine} -process {(Log " Starting continuous tracing and monitoring..." yellow);sleep 1;sleep 1}
 
-## Clean up an previous net trace etl file and bgin tracing if enabled
+## Clean up an previous net trace etl file and begin tracing if enabled
 try {
 Remove-Item "$DataPath*.etl" | Where { ! $_.PSIsContainer }
 

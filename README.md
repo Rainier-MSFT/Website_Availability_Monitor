@@ -1,6 +1,6 @@
 # Website_Availability_Monitor
 
-Powershell script to monitor availability of wesites that exhibit tempremental avaiability and dificult to root cause.
+Powershell script monitors availability of wesites to root cause sites exhibiting tempremental availability.
 
 Two run modes exists:
 

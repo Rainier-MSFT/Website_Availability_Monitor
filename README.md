@@ -4,7 +4,7 @@ Powershell script monitors availability of wesites to root cause sites exhibitin
 
 Two run modes exists:
 
-Run script remotely to watch site and log detailed responses to HTML file output
-On local IIS application host to monitor sites and processes, and capture nettrace & memory dump if necessary, with sendmail capability.
+Run script remotely to watch site responses in real-time and results piped to HTML log.
+Script can also be run locally on IIS host to monitor sites and processes, capture nettrace & memory dump if necessary, and offers sendmail capability.
 
 ![Website_Availability_Monitor](DocImages/output.jpg)
